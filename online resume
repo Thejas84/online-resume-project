@@ -1,0 +1,115 @@
+
+<html>
+<head>
+    <title>Online Resume Generator</title>
+    <style>
+        .container {
+            width: 50%;
+            margin: 0 auto;
+     
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+      body:hover {
+        color:green;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Resume Generator</h1>
+        <form id="resumeForm" enctype="multipart/form-data">
+            <label for="image">Upload Image:</label><br>
+            <input type="file" id="image" name="image"><br>
+            <button type="button" onclick="uploadImage()">Upload Image</button>
+            <div id="imageOutput"></div>
+
+            <div id="otherInfo" style="display:none;">
+                <label for="fullName">Full Name:</label><br>
+                <input type="text" id="fullName" name="fullName"><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br>
+                <label for="phone">Phone:</label><br>
+                <input type="text" id="phone" name="phone"><br>
+                <label for="address">Address:</label><br>
+                <input type="text" id="address" name="address"><br>
+                <label for="qualification">Qualification:</label><br>
+                <input type="text" id="qualification" name="qualification"><br>
+                <label for="hobbies">Hobbies:</label><br>
+                <input type="text" id="hobbies" name="hobbies"><br>
+                <label for="skills">Skills:</label><br>
+                <input type="text" id="skills" name="skills"><br>
+                <label for="summary">Summary:</label><br>
+                <textarea id="summary" name="summary"></textarea><br>
+                <label for="language">languages you know:</label><br>
+                <input type="text" id="language" name="language"><br>
+                <button type="submit">Generate Resume</button>
+            </div>
+        </form>
+        <div id="resumeOutput"></div>
+    </div>
+
+    <script>
+        let imageData;
+
+        function uploadImage() {
+            const imageInput = document.getElementById('image');
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                imageData = e.target.result;
+                const imageOutput = document.getElementById('imageOutput');
+                imageOutput.innerHTML = `<img src="${imageData}" style="max-width: 100px; max-height: 100px;" alt="Uploaded Image">`;
+
+                document.getElementById('otherInfo').style.display = 'block';
+            }
+
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('resumeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(document.getElementById('resumeForm'));
+
+            const resumeOutput = document.getElementById('resumeOutput');
+            resumeOutput.innerHTML = `
+        <h2>Resume Output</h2>
+        <div id="imageOutput"><img src="${imageData}" style="max-width: 100px; max-height: 100px;" alt="Uploaded Image"></div>
+        <p><strong>Full Name:</strong> ${formData.get('fullName')}</p>
+        <p><strong>Email:</strong> ${formData.get('email')}</p>
+        <p><strong>Phone:</strong> ${formData.get('phone')}</p>
+        <p><strong>Address:</strong> ${formData.get('address')}</p>
+        <p><strong>Qualification:</strong> ${formData.get('qualification')}</p>
+        <p><strong>Hobbies:</strong> ${formData.get('hobbies')}</p>
+        <p><strong>Skills:</strong> ${formData.get('skills')}</p>
+        <p><strong>Summary:</strong> ${formData.get('summary')}</p>
+        <p><strong>language:</strong> ${formData.get('language')}</p>
+    `;
+        });
+    </script>
+</body>
+</html>
